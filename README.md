@@ -1,8 +1,13 @@
 # 🌠 Andromeda
 
-> _"Bridging theory and practice in AI Engineering — one week, one system."_
+> _"From reading to building — architecture × AI agents × real systems."_
 
-**Andromeda** is a 12-week intensive practice project that transforms theoretical knowledge from AI Engineering, AI Agents, and Software Architecture into production-grade applications.
+**Andromeda** is a progressive practice project that bridges the gap between "I've read it" and "I can build it."
+
+Three knowledge pillars → one integrated skill set:
+- 🏗️ **Software Architecture** — patterns, trade-offs, ADRs
+- 🤖 **AI Agent Engineering** — orchestration, harness design, multi-agent systems
+- ⚡ **AI-Augmented Development** — using AI as a force multiplier, not just a code generator
 
 Part of the **[Celestia Lab](https://github.com/Lina-Zhao)** series.
 
@@ -10,181 +15,119 @@ Part of the **[Celestia Lab](https://github.com/Lina-Zhao)** series.
 
 ## 🎯 Mission
 
-**Problem:** Reading books on AI Engineering and Software Architecture doesn't translate to real-world skills.
+**Problem:** Reading architecture books and AI engineering books doesn't mean you can design systems or orchestrate agents.
 
-**Solution:** Build one complete AI system every week, integrating:
-- 📚 **AI Engineering** (Chip Huyen) — MLOps, deployment, monitoring
-- 🤖 **AI Agents** (Michael Albada) — ReAct, tool calling, multi-agent systems
-- 🏗️ **Software Architecture** (Neal Ford) — Design patterns, trade-offs, scalability
+**Solution:** A three-phase progressive training program:
+1. **Build muscle memory** — small focused exercises (2-3h each)
+2. **Go deep** — multi-week projects combining patterns
+3. **Prove it** — one real system from zero to production
 
-**Output:** A portfolio of 12+ deployable projects + architecture docs for interviews.
-
----
-
-## 📅 12-Week Roadmap
-
-### 🔧 Phase 1: AI Engineering Foundations (Week 1-4)
-
-| Week | Project | Tech Stack | Architecture Focus |
-|------|---------|-----------|-------------------|
-| **1** | LLM Inference Service | vLLM, FastAPI, Prometheus | Layered Architecture |
-| **2** | Data Pipeline | Airflow, DuckDB, Qdrant | Modularity & ETL |
-| **3** | Model Fine-tuning | LoRA, MLflow, PyTorch | Experiment Tracking |
-| **4** | A/B Testing Framework | Redis, FastAPI | Traffic Routing |
-
-### 🤖 Phase 2: AI Agents Applications (Week 5-8)
-
-| Week | Project | Tech Stack | Architecture Focus |
-|------|---------|-----------|-------------------|
-| **5** | ReAct Agent | LangChain, Function Calling | Microkernel (Plugin System) |
-| **6** | RAG System | LlamaIndex, Reranker | Retrieval Pipeline |
-| **7** | Multi-Agent System | AutoGen, Redis | Inter-Service Communication |
-| **8** | Agent Observability | LangSmith, OpenTelemetry | Distributed Tracing |
-
-### 🏗️ Phase 3: Production Systems (Week 9-12)
-
-| Week | Project | Tech Stack | Architecture Focus |
-|------|---------|-----------|-------------------|
-| **9** | Microservices Refactor | gRPC, Nginx, Docker | Service Boundaries |
-| **10** | Event-Driven System | Kafka, Celery, WebSocket | Async Processing |
-| **11** | Security & Cost Optimization | JWT, LiteLLM, Caching | Trade-offs Analysis |
-| **12** | Final Project | Full Stack | Complete System Design |
+**Not a portfolio factory.** This is a training ground for becoming an architect who can leverage AI agents to multiply output.
 
 ---
 
-## 🛠️ Tech Stack
+## 📅 Three-Phase Roadmap
 
-**Core Technologies:**
-- **LLM:** vLLM, Hugging Face Transformers, OpenAI API
-- **Frameworks:** LangChain, LlamaIndex, AutoGen
-- **Infrastructure:** Docker, Kubernetes, Airflow
-- **Monitoring:** Prometheus, Grafana, LangSmith
-- **Databases:** PostgreSQL, Redis, Qdrant (Vector DB)
-- **Message Queue:** Kafka, RabbitMQ, Celery
+### Phase 1: Pattern Drills (Week 1-4)
+> 每周 1 个 2-3h 小练习，练一种架构 pattern + 一种 AI 编排技术
 
-**Languages:** Python (primary), Bash (scripting)
+| Week | Architecture Pattern | AI Skill | Exercise |
+|------|---------------------|----------|----------|
+| **1** | Layered Architecture | Prompt → Context → Harness 演进 | 重构一个 chatbot：从单 prompt 到带 guardrails 的 harness |
+| **2** | Microkernel (Plugin) | Tool Calling + Function Routing | 构建一个可插拔工具的 CLI agent |
+| **3** | Pipeline Architecture | Sequential Agent Orchestration | 数据处理 pipeline：每个 stage 是一个 agent |
+| **4** | Event-Driven Architecture | Agent 间异步通信 | 事件驱动的 multi-agent 通知系统 |
+
+每个练习必须产出：
+- ✅ 可运行的代码
+- ✅ ADR（Architecture Decision Record）— 为什么选这个 pattern，trade-off 是什么
+- ✅ 一段话总结：如果给别人解释这个 pattern，你怎么说？
+
+### Phase 2: Deep Projects (Week 5-10)
+> 2 个深度项目，每个 3 周，组合多个 pattern + multi-agent 编排
+
+| Project | Duration | Patterns | AI Focus |
+|---------|----------|----------|----------|
+| **P1: AI Code Review System** | Week 5-7 | Microkernel + Pipeline + Event-Driven | Multi-agent: Analyzer → Reviewer → Reporter，harness design，自动化 eval |
+| **P2: Knowledge Assistant** | Week 8-10 | Microservices + CQRS + Layered | RAG + Agent Orchestration（sequential + handoff），harness 迭代 |
+
+每个项目必须产出：
+- ✅ 架构设计文档（before coding）
+- ✅ Multi-agent 编排方案 + 为什么这样编排
+- ✅ Harness 设计：guardrails, checkpoints, eval criteria
+- ✅ 可 demo 的系统
+- ✅ 复盘：哪里设计对了，哪里要改
+
+### Phase 3: Capstone (Week 11-12)
+> 1 个完整系统：真实问题，从零到一
+
+选题在 Phase 2 结束后根据能力和兴趣确定。要求：
+- 独立完成架构设计（Argo 只 review，不代写）
+- 使用 multi-agent 协作开发
+- 完整闭环：需求 → 设计 → 实现 → 测试 → 部署 → 文档
+- 能向别人讲清楚每个架构决策的 why
+
+---
+
+## 📚 Knowledge Sources
+
+**已读（核心参考）：**
+- [AI Engineering](https://www.oreilly.com/library/view/ai-engineering/9781098166298/) — Chip Huyen
+- [Building Applications with AI Agents](https://www.oreilly.com/) — Michael Albada
+- [Fundamentals of Software Architecture, 2nd Ed](https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/) — Neal Ford (reading, Ch-15 done)
+
+**补充学习（按需）：**
+- [AI Agent Orchestration Patterns — Azure Architecture Center](https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns)
+- Harness Engineering（Anthropic's long-running agents, Mitchell Hashimoto's framing）
+- [LangGraph](https://langchain-ai.github.io/langgraph/) / [Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/) / [AutoGen](https://microsoft.github.io/autogen/)
 
 ---
 
 ## 📊 Project Structure
 
 ```
-Andromeda/
-├── README.md                    # This file
+andromeda/
+├── README.md
 ├── docs/
-│   ├── architecture/            # ADRs & system design docs
-│   ├── learning-notes/          # Weekly reading summaries
-│   └── deployment-guides/       # Production deployment steps
-├── week-01-llm-inference/       # Week 1: LLM API Service
-│   ├── src/                     # Source code
-│   ├── tests/                   # Unit & integration tests
-│   ├── docker/                  # Containerization
-│   ├── docs/                    # Week-specific docs
-│   └── README.md                # Project-specific guide
-├── week-02-data-pipeline/       # Week 2: Data Pipeline
-├── ...
-├── week-12-final-project/       # Week 12: Capstone
-├── scripts/                     # Utility scripts
-│   ├── setup.sh                 # Environment setup
-│   └── deploy.sh                # Deployment automation
-└── .github/
-    └── workflows/               # CI/CD pipelines
+│   └── ROADMAP.md              # Detailed weekly plans
+├── phase-1/
+│   ├── week-01-layered/        # Layered + Harness Engineering
+│   ├── week-02-microkernel/    # Microkernel + Tool Calling
+│   ├── week-03-pipeline/       # Pipeline + Sequential Agents
+│   └── week-04-event-driven/   # Event-Driven + Async Agents
+├── phase-2/
+│   ├── project-1-code-review/  # AI Code Review System
+│   └── project-2-knowledge/    # Knowledge Assistant
+├── phase-3/
+│   └── capstone/               # Final Project
+└── templates/
+    └── adr-template.md         # Architecture Decision Record template
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🧭 Design Principles
 
-### Prerequisites
-- Python 3.10+
-- Docker & Docker Compose
-- CUDA-capable GPU (optional, for local LLM inference)
-- 16GB+ RAM recommended
-
-### Quick Start
-
-```bash
-# Clone the repository
-git clone https://github.com/Lina-Zhao/Andromeda.git
-cd Andromeda
-
-# Set up environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-# Navigate to Week 1 project
-cd week-01-llm-inference
-./setup.sh
-```
+1. **Language-agnostic** — 用最适合场景的语言，不限 Python/JS/C#
+2. **Architecture-first** — 先画设计，再写代码。每个项目都从 ADR 开始
+3. **AI as collaborator** — 不是让 AI 帮你写代码，是你设计系统然后编排 AI 来协作完成
+4. **Harness > Prompt** — 关注系统可靠性，不只是模型输出质量
+5. **做完能讲** — 如果你不能向别人解释为什么这样设计，就不算学会
 
 ---
 
-## 📚 Learning Resources
+## 📈 Progress
 
-**Books (Core References):**
-- [AI Engineering](https://www.oreilly.com/library/view/ai-engineering/9781098166298/) - Chip Huyen
-- [Building Applications with AI Agents](https://www.oreilly.com/) - Michael Albada
-- [Fundamentals of Software Architecture](https://www.oreilly.com/library/view/fundamentals-of-software/9781492043447/) - Neal Ford
-
-**Complementary Materials:**
-- [LangChain Documentation](https://python.langchain.com/)
-- [vLLM Documentation](https://docs.vllm.ai/)
-- [Martin Fowler's Architecture Blog](https://martinfowler.com/architecture/)
-
----
-
-## 🎯 Success Metrics
-
-**By Week 12, you should have:**
-- ✅ 12 complete, deployable AI projects
-- ✅ 10+ architecture design documents (ADRs)
-- ✅ 3-4 production-ready systems (with monitoring & CI/CD)
-- ✅ A portfolio for technical interviews
-
-**Ultimate Goal:** Use these projects to pass AI Engineering interviews at top tech companies.
+| Phase | Item | Status |
+|-------|------|--------|
+| 1 | Week 01 - Layered + Harness | ⏳ Next |
+| 1 | Week 02 - Microkernel + Tool Calling | ⏳ Planned |
+| 1 | Week 03 - Pipeline + Sequential Agents | ⏳ Planned |
+| 1 | Week 04 - Event-Driven + Async Agents | ⏳ Planned |
+| 2 | Project 1 - AI Code Review System | ⏳ Planned |
+| 2 | Project 2 - Knowledge Assistant | ⏳ Planned |
+| 3 | Capstone | ⏳ Planned |
 
 ---
 
-## 📈 Progress Tracking
-
-| Week | Project | Status | Demo Link | Blog Post |
-|------|---------|--------|-----------|-----------|
-| 1 | LLM Inference Service | 🚧 In Progress | - | - |
-| 2 | Data Pipeline | ⏳ Planned | - | - |
-| 3 | Model Fine-tuning | ⏳ Planned | - | - |
-| ... | ... | ... | ... | ... |
-
----
-
-## 🤝 Contributing
-
-This is a personal learning project, but feedback and suggestions are welcome!
-
-- Open an issue for questions or suggestions
-- Share your own implementations or improvements
-- Check out other projects in the [Celestia Lab](https://github.com/Lina-Zhao)
-
----
-
-## 📜 License
-
-MIT License - See [LICENSE](LICENSE) for details.
-
----
-
-## 🌌 Celestia Lab Series
-
-- **[Kepler](https://github.com/Lina-Zhao/Kepler)** - Personal workspace & journal system
-- **[Orion](https://github.com/Lina-Zhao/Orion)** - Previous project
-- **[Andromeda](https://github.com/Lina-Zhao/Andromeda)** - AI Engineering practice (this repo)
-
----
-
-<div align="center">
-
-**Built with 🧠 and ☕ in 2026**
-
-_"The journey from theory to production, one commit at a time."_
-
-</div>
+_Redesigned: 2026-04-13 · Original: 2026-03-19_
