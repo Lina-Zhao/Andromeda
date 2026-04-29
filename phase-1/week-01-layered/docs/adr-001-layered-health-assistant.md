@@ -102,6 +102,58 @@ Layered pays a small structural cost up front to buy all of these capabilities. 
 **2. Microkernel (Plugin) Architecture.**
 Attractive long-term (each guardrail / tool as a plugin), but the current scope has no pluggable modules or dynamic extensions yet. Adopting it now would be premature abstraction. Layered first, microkernel in Phase 2 when the need is real.
 
+### Where AI Adds Value (and where it doesn't)
+
+This system is intentionally a mix of traditional software and AI. The LLM is invoked **only** where traditional logic cannot solve the problem. This separation keeps the system fast, cheap, and reliable.
+
+**Traditional software (~80% of the codebase):**
+- Data storage (JSON in Phase 1, SQLite later)
+- CRUD operations on profile / daily logs
+- Chart rendering and trend visualization
+- Scheduled reminders (cron)
+- Multi-surface sync
+
+**AI / LLM (~20%, but the core differentiator):**
+- *Natural-language input parsing* — "今天跑步机爬坡 40 分钟, 坡度 9, 配速 4.6/5 交替" → structured exercise log. Forms can't compete with talking.
+- *Personalized insight generation* — reasoning over multiple variables (sleep + intensity + HR) to produce contextual advice that rule engines can't enumerate.
+- *Semantic / fuzzy queries* — "上次膝盖不舒服是什么时候" — SQL can't search for "不舒服", semantic search over journal entries can.
+- *Proactive narrative* — surfacing patterns the user wouldn't query for themselves (e.g. "weekend weight rebound").
+
+**Anti-pattern to avoid:** routing every interaction through an LLM. Numeric inputs, charts, reminders, sync — all of these stay in plain code. "Adding a LLM wrapper to a CRUD app" is not AI engineering.
+
+## Future Vision (out of Phase 1 scope)
+
+Phase 1 builds the smallest end-to-end slice: CLI + JSON data + LLM adapter + guardrails. The longer-term target architecture this ADR is laying foundations for:
+
+```
+        ┌─────────────────────────────────┐
+        │   Health Data Layer (SQLite)    │  single source of truth
+        └─────────────┬───────────────────┐
+                      │
+        ┌─────────────┴───────────────────┐
+        │   Health Service (Orchestration)            │
+        │   guardrails + LLM adapter + business logic │
+        └──┬──────────┬──────────┬────────────┘
+           │          │          │
+       ┌───▼──┐   ┌───▼──┐   ┌───▼────┐
+       │ CLI  │   │手机 UI│   │MCP Srv │
+       └──────┘   └──────┘   └───┬────┘
+                                  │
+                              ┌───▼───┐
+                              │ Argo  │  (MCP client)
+                              └───────┘
+```
+
+**Three surfaces share one data layer.** Argo (the user's existing journaling agent) becomes a MCP client of this system, so daily-journal data and chatbot data converge into a single source of truth.
+
+**Phased rollout:**
+- *Phase 1 (this week, Layered):* CLI + JSON data + LLM adapter + guardrails
+- *Phase 2 (Microkernel):* guardrails / tools as plugins
+- *Phase 3 (Pipeline / Event-Driven):* expose MCP Server, Argo integrates
+- *Phase 4+:* mobile UI, multi-device sync, and eventually agentic mode (proactive triggers, planning) — not chatbot anymore at that point
+
+**Terminology note:** what Phase 1 builds is a *chatbot* (request → response, no autonomy), not an *agent*. Upgrade to agent semantics is a Phase 5+ topic.
+
 ## Consequences
 
 - **Positive:** Simple, easy to understand, fast to implement. Good for learning and getting something working quickly.
