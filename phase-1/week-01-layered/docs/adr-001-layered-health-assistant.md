@@ -22,15 +22,25 @@ Build a health assistant chatbot using a Layered Architecture with the following
 Each layer only depends on the layer directly below it. No cross-layer shortcuts.
 
 ```
-┌─────────────────────────┐
-│   Presentation Layer    │  CLI / UI
-├─────────────────────────┤
-│   Orchestration Layer   │  Guardrails, Retry, Token Budget, Safety
-│   ┌───────┐ ┌────────┐  │
-│   │  LLM  │ │  Data  │  │
-│   └───────┘ └────────┘  │
-└─────────────────────────┘
+┌──────────────────┐
+│   Presentation   │   CLI / UI
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│   Orchestration  │   Guardrails · Retry · Token Budget · Safety
+└──┬────────────┬──┘
+   │            │
+   ▼            ▼
+┌──────┐    ┌──────┐
+│ LLM  │    │ Data │
+└──────┘    └──────┘
 ```
+
+**Dependency rules:**
+- Each layer only depends downward; no upward or skip-layer calls.
+- LLM and Data are siblings — they do **not** depend on each other. The LLM layer is intentionally stateless and has no knowledge of who the user is. All user context is injected by Orchestration into the prompt before calling LLM.
+- This boundary is what makes the LLM layer a swappable adapter (change provider in 1 place) and the Data layer independently testable.
 
 ### Quality Criteria — What Makes a Good Health Chatbot
 
@@ -59,17 +69,38 @@ A good health assistant must be **comprehensive, safe, personalized, and evidenc
 
 ### Data Schema
 
-**User Profile:**
+**User Profile (static / slow-changing):**
 - `id` — unique identifier
 - `name` — user name
-- `height` — cm
-- `weight` — kg (support 斤 input, convert internally: 1kg = 2斤)
-- `target_weight` — kg (support 斤 input, convert internally)
-- (extensible for future fields: age, conditions, equipment, etc.)
+- `height_cm`
+- `weight_kg` — current (support 斤 input, convert internally: 1kg = 2斤)
+- `target_weight_kg` — goal (support 斤 input, convert internally)
+- `injuries` — list of strings (e.g. `["left knee", "lower back"]`)
+- `equipment` — list of strings (e.g. `["gym", "dumbbells", "treadmill"]`)
+- `dietary_constraints` — list of strings (e.g. `["low-carb", "vegetarian"]`)
+
+**Daily Log (rolling, last 7 days minimum):**
+- `date`
+- `weight_kg`
+- `exercise` — `{ type, duration_min, intensity }`
+- `sleep` — `{ hours, quality_1to10 }`
+- `water_ml`
+- `diet_notes` — free text
+
+**Storage choice (Phase 1):** single JSON file under `data/` — simplest possible, easy to inspect. Will migrate to SQLite if/when query patterns need it.
 
 ## Alternatives Considered
 
-Considered **Microkernel (Plugin) Architecture** — but the current scope doesn't warrant it. There are no pluggable modules or dynamic extensions needed yet. Layered is the simplest pattern and the right starting point for this exercise.
+**1. Single-file, direct LLM call (the default "just ship it" approach).**
+Technically able to add guardrails inline, but quickly degrades into an unmaintainable mess:
+- *Concerns tangled:* UI prompts, guardrail checks, retry logic, token counting, and data access all live in one file — every change requires reading the whole file.
+- *Untestable:* Can't unit-test a single guardrail without mocking the entire LLM call chain.
+- *Not swappable:* Switching LLM provider (OpenAI → Claude) means hunting through the file because prompt assembly and provider call are fused.
+- *Not reusable:* Phase 2 (microkernel) and Phase 3 (pipeline) need the same guardrails and LLM adapter — a single-file version can't be lifted out, every phase rewrites from scratch.
+Layered pays a small structural cost up front to buy all of these capabilities. Worth it as the Phase 1 starting point.
+
+**2. Microkernel (Plugin) Architecture.**
+Attractive long-term (each guardrail / tool as a plugin), but the current scope has no pluggable modules or dynamic extensions yet. Adopting it now would be premature abstraction. Layered first, microkernel in Phase 2 when the need is real.
 
 ## Consequences
 
