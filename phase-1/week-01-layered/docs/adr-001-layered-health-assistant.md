@@ -21,9 +21,55 @@ Build a health assistant chatbot using a Layered Architecture with the following
 
 Each layer only depends on the layer directly below it. No cross-layer shortcuts.
 
+```
+┌─────────────────────────┐
+│   Presentation Layer    │  CLI / UI
+├─────────────────────────┤
+│   Orchestration Layer   │  Guardrails, Retry, Token Budget, Safety
+│   ┌───────┐ ┌────────┐  │
+│   │  LLM  │ │  Data  │  │
+│   └───────┘ └────────┘  │
+└─────────────────────────┘
+```
+
+### Quality Criteria — What Makes a Good Health Chatbot
+
+A good health assistant must be **comprehensive, safe, personalized, and evidence-based**:
+
+- **Comprehensive:** e.g. weight loss advice must cover diet, hydration, sleep — not just "eat less, exercise more"
+- **Personalized:** Must ask about the user's conditions first (gym access? equipment? schedule?) before giving plans
+- **Safe:** Must validate user goals against objective reality (e.g. 160cm targeting 30kg → refuse and explain why)
+- **Evidence-based:** Diet is fundamental — weight loss = caloric deficit (input < output). Must address nutrition, not just exercise
+
+### Guardrails
+
+**Input:**
+- Topic validation — only respond to health-related topics
+- User info completeness — proactively ask for missing info before giving advice
+- User data anonymization / desensitization
+
+**Output:**
+- Unified response format
+- Hallucination detection — do not fabricate medical claims
+
+**Orchestration:**
+- Retry logic for LLM failures
+- Token budget management
+- Safety checks on user goals before executing plans
+
+### Data Schema
+
+**User Profile:**
+- `id` — unique identifier
+- `name` — user name
+- `height` — cm
+- `weight` — kg (support 斤 input, convert internally: 1kg = 2斤)
+- `target_weight` — kg (support 斤 input, convert internally)
+- (extensible for future fields: age, conditions, equipment, etc.)
+
 ## Alternatives Considered
 
-None. This is intentionally the simplest architecture pattern — the goal is to start from the basics and build up. Layered Architecture is the first pattern in the architecture book and the most straightforward to implement.
+Considered **Microkernel (Plugin) Architecture** — but the current scope doesn't warrant it. There are no pluggable modules or dynamic extensions needed yet. Layered is the simplest pattern and the right starting point for this exercise.
 
 ## Consequences
 
